@@ -34,7 +34,8 @@ class Database
   def CreatePeep(userhandle, content)
     CreateAPeep(userhandle, content)
     handle = /@[^\s]+/.match(content)
-    if handle != nil
+    handle ||= "@NOTAG@"
+    if !(handle.include?("@NOTAG@"))
       SendMail(GetEmail(handle.to_s.gsub("@",""))["useremail"], content)
     end
   end
