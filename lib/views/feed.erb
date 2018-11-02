@@ -4,7 +4,7 @@
 </head>
 <body>
   <div id="navbar">
-    <form method='post' action='/log_out'>
+    <form method='get' action='/log_out'>
       <input type='hidden' name='_method' value='delete'>
       <input type='submit' value='Log Out'>
     </form>
@@ -28,6 +28,9 @@
       <div class="feed-inner">
         <p>See what your friends are up to!</p>
       </div>
+      <% @peepsToday.each do |peep| %>
+        ------WRITE HERE KWAME------
+      <% end %>
     </div>
 
   </div>

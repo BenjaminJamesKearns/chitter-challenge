@@ -2,6 +2,8 @@ require 'sinatra/base'
 require 'shotgun'
 require_relative 'user'
 require_relative 'DatabaseHandler'
+require 'mail'
+
 $DB = Database.new
 class ChitterApp < Sinatra::Base
   enable :sessions, :method_override
@@ -20,7 +22,7 @@ class ChitterApp < Sinatra::Base
 
   end
 
-  post '/log_out' do
+  get '/log_out' do
     session.clear
     redirect '/'
   end
@@ -47,6 +49,7 @@ class ChitterApp < Sinatra::Base
   get '/feed' do
     if current_user
       @user = session[:user_name]
+      @peepsToday = $DB.GetPeeps(Date.today.year, Date.today.month, Date.today.day)
       erb :feed
     else
       redirect '/unauthorized'
