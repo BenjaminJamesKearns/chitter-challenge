@@ -48,7 +48,7 @@ class Database
     result =  GetPeepDataOnDay(year, month, day)
     peeps = Array.new
     result.each do |data|
-      data["userhandle"] = GetUserHandleID(data["peeperid"])
+      data["userhandle"] = "@#{GetUserHandleID(data["peeperid"])}"
       peeps.push(data)
     end
     peeps
