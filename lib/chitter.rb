@@ -74,9 +74,6 @@ class ChitterApp < Sinatra::Base
       end
     end
 
-    def date_and_time(time)
-      time.strftime("%c")
-    end
   end
 
   configure do
