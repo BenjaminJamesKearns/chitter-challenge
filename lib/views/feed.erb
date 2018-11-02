@@ -4,9 +4,9 @@
 </head>
 <body>
   <div id="navbar">
-    <form method='get' action='/log_out'>
+    <form class="" method='get' action='/log_out'>
       <input type='hidden' name='_method' value='delete'>
-      <input type='submit' value='Log Out'>
+      <input type='submit' value='Log Out  ❌'>
     </form>
   </div>
   <div class="inner">
@@ -25,12 +25,22 @@
     </div>
 
     <div class="feed">
-      <div class="feed-inner">
+      <div>
         <p>See what your friends are up to!</p>
       </div>
-      <% @peepsToday.each do |peep| %>
-        ------WRITE HERE KWAME------
-      <% end %>
+      <div class="feed-inner">
+        <% @peepsToday.each do |peep| %>
+        <div class="">
+          <%= peep["userhandle"] %>
+        </div>
+        <div class="feed-content">
+          <%= peep["peepcontent"] %>
+        </div>
+        <div class="feed-time">
+          <%= peep["datetime"] %>
+        </div>
+        <% end %>
+      </div>
     </div>
 
   </div>
@@ -47,16 +57,24 @@
   width: 100%;
 }
 /* Navbar links */
-#navbar a {
+#navbar form {
+  float: right;
+}
+
+#navbar input[type=submit]{
+  border: none;
+  font: inherit;
+  color: #A8BACE;
   float: right;
   display: block;
   color: #f2f2f2;
-  text-align: center;
-  padding: 14px;
-  text-decoration: none;
+  background: none;
+  padding-top: 10px;
   font-weight: 600;
   font-family: 'Raleway', sans-serif;
+  cursor: pointer;
 }
+
 .content {
   padding: 16px;
 }
@@ -96,7 +114,6 @@ body{
   color: rgba(0,0,0,.5);
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: .5em;
   align-items: center;
   vertical-align: middle;
   line-height: 90px;
@@ -128,7 +145,8 @@ body{
   max-width: 460;
   font-size: 16px;
   background: #495C70;
-  padding: 30px 0px 295px 30px;
+  padding-left: 10px;
+  padding-bottom: 10px;
   border: 5px solid #53687E;
   width: 100%;
   float: right;
@@ -143,6 +161,24 @@ body{
  font-family: Georgia, "Times New Roman", Times, serif;
  font-size: 16px;
  color: #fff;
+}
+
+.feed-inner{
+  background: #0e090924;
+  padding: 10px;
+  max-width: 430px;
+  margin-top: 10px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #fff;
+}
+
+.feed-content{
+  text-align: left;
+}
+
+.feed-time{
+ text-align: right;
+ color: red;
 }
 
 .form{
