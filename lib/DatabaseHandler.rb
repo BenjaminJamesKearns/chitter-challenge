@@ -1,4 +1,5 @@
 require 'pg'
+require 'net/smtp'
 
 #Class to handle interactions and requests with the database
 class Database
@@ -32,6 +33,10 @@ class Database
   #Public Create a new peep in the database
   def CreatePeep(userhandle, content)
     CreateAPeep(userhandle, content)
+    handle = /@[^\s]+/.match(content)
+    if handle != nil
+      SendMail(GetEmail(handle.to_s.gsub("@",""))["useremail"], content)
+    end
   end
   #Public create a new sub peep in the database
   def CreateReplyPeep(mainpeepid, userhandle, content)
@@ -74,9 +79,33 @@ class Database
     end
   end
 
+  def SendMail(useremail, content)
+    options = { :address              => "smtp.gmail.com",
+      :port                 => 587,
+      :user_name            => 'ChitterMakers',
+      :password             => 'Chitter123',
+      :authentication       => 'plain',
+      :enable_starttls_auto => true  }
+
+    Mail.defaults do
+      delivery_method :smtp, options
+    end
+
+    Mail.deliver do
+      to "#{useremail}"
+      from 'Chitter!'
+      subject "You've been Tagged! - Chitter"
+      body "Hey! Someone has mentioned you in a post! The Peep was '#{content}'"
+    end
+  end
+
 
   private
   
+  #Get user email
+  def GetEmail(userhandle)
+    @db.exec("SELECT useremail FROM Users WHERE UserHandle='#{userhandle}'")[0]
+  end
   #Get user id
   def getuserdataID(userid)
     @db.exec("SELECT * FROM Users WHERE UserID='#{userid}'")
