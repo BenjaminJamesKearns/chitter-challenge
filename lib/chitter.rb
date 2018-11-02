@@ -58,7 +58,7 @@ class ChitterApp < Sinatra::Base
 
   post '/peep' do
     $DB.CreatePeep(session[:user_handle], params[:Peep])
-    erb :peep
+    redirect "/feed"
   end
 
   get '/unauthorized' do
