@@ -47,6 +47,7 @@ class Database
     result =  GetPeepDataOnDay(year, month, day)
     peeps = Array.new
     result.each do |data|
+      data["userhandle"] = GetUserHandleID(data["peeperid"])
       peeps.push(data)
     end
     peeps
@@ -170,6 +171,10 @@ class Database
   def RemoveAPeep(peepid)
     @db.exec("DELETE FROM Peeps WHERE PeepID='#{peepid}'")
     @db.exec("DELETE FROM SubPeeps WHERE MainPeepID='#{peepid}'")
+  end
+  #Get userhandle from id
+  def GetUserHandleID(userid)
+    @db.exec("SELECT UserHandle FROM Users WHERE UserID='#{userid}'")[0]["userhandle"]
   end
 end
 
